@@ -410,8 +410,8 @@ public final class BatteryService extends Binder {
                     && mBatteryProps.batteryLevel <= mLowBatteryWarningLevel
                     && (oldPlugged || mLastBatteryLevel > mLowBatteryWarningLevel);
 
-            if (mBatteryStatus == BatteryManager.BATTERY_STATUS_UNKNOWN)
-                mBatteryLevel = BATTERY_SCALE;
+            if (mBatteryProps.batteryStatus == BatteryManager.BATTERY_STATUS_UNKNOWN)
+                mBatteryProps.batteryLevel = BATTERY_SCALE;
 
             sendIntentLocked();
 
