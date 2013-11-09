@@ -1772,6 +1772,6 @@
   <java-symbol type="string" name="global_actions" />
   <java-symbol type="string" name="global_action_reboot" />
   <java-symbol type="string" name="global_action_screenshot" />
-  <java-symbol type="string" name="reboot_system" />
+  <java-symbol type="string" name="reboot_confirm" />
   <java-symbol type="string" name="reboot_progress" />
 </resources>
