@@ -2787,8 +2787,15 @@ public final class Settings {
         public static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
 
         /**
+         * Immersive mode global actions switch
+         * 0 = no
+         * 1 = yes
+         * @hide
+         */
+        public static final String IMMERSIVE_MODE = "immersive_mode";
+
+        /**
          * Config for advanced power menu
-         *
          * @hide
          */
         public static final String POWER_MENU_CONFIG = "power_menu_config";
