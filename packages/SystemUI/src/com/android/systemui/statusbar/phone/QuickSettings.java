@@ -729,40 +729,30 @@ class QuickSettings {
                 = new QuickSettingsBasicTile(mContext);
         locationTile.setImageResource(R.drawable.ic_qs_location_on);
         locationTile.setTextResource(R.string.quick_settings_location_label);
-        locationTile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSettingsActivity(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            }
-        });
         if (LONG_PRESS_TOGGLES) {
             locationTile.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    boolean newLocationEnabledState = !mLocationController.isLocationEnabled();
-                    if (mLocationController.setLocationEnabled(newLocationEnabledState)
-                            && newLocationEnabledState) {
-                        // If we've successfully switched from location off to on, close the
-                        // notifications tray to show the network location provider consent dialog.
-                        Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-                        mContext.sendBroadcast(closeDialog);
-                    }
-                    return true; // Consume click
-                }} );
+                    startSettingsActivity(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    return true;
+                }
+            });
         }
-        mModel.addLocationTile(locationTile, new QuickSettingsModel.RefreshCallback() {
+
+        locationTile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void refreshView(QuickSettingsTileView unused, State state) {
-                locationTile.setImageResource(state.iconId);
-                String locationState = mContext.getString(
-                        (state.enabled) ? R.string.accessibility_desc_on
-                                : R.string.accessibility_desc_off);
-                locationTile.setContentDescription(mContext.getString(
-                        R.string.accessibility_quick_settings_location,
-                        locationState));
-                locationTile.setText(state.label);
-            }
-        });
+            public void onClick(View v) {
+                boolean newLocationEnabledState = !mLocationController.isLocationEnabled();
+                if (mLocationController.setLocationEnabled(newLocationEnabledState)
+                        && newLocationEnabledState) {
+                    // If we've successfully switched from location off to on, close the
+                    // notifications tray to show the network location provider consent dialog.
+                    Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                    mContext.sendBroadcast(closeDialog);
+                }
+            }} );
+        mModel.addLocationTile(locationTile,
+                new QuickSettingsModel.BasicRefreshCallback(locationTile));
         parent.addView(locationTile);
     }
 
