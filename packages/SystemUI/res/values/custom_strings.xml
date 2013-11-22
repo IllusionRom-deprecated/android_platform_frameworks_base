@@ -19,6 +19,9 @@
     <!-- Content description of the data connection type HSPA+ for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_data_connection_HP">HSPA+</string>
 
+    <!--ScreenShot Trash-->
+    <string name="delete">Delete</string>
+
     <!-- Quick Settings Wi-Fi Back Tile Tethering label -->
     <string name="quick_settings_wifi_tethering_label">Tethering</string>
 
@@ -48,4 +51,8 @@
 
     <!-- Screen record notification error title -->
     <string name="screenrecord_notif_error">Unable to record screen</string>
+
+    <!-- QS Battery Tile -->
+    <string name="quick_settings_battery_charging">Charging</string>
+    <string name="quick_settings_battery_discharging">Discharging</string>
 </resources>
