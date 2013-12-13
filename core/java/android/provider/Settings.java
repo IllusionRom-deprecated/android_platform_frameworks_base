@@ -3100,6 +3100,12 @@ public final class Settings {
         public static final String KEYBOARD_ROTATION_TIMEOUT = "keyboard_rotation_timeout";
 
         /**
+         * Should call status sounds be player
+         * @hide
+         */
+        public static final String CALL_END_SOUND = "call_end_sound";
+
+        /**
          * Forces formal text input.  1 to replace emoticon key with enter key.
          * @hide
          */
