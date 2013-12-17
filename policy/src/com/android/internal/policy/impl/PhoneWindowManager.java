@@ -439,6 +439,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mHomeConsumed;
     boolean mAppSwitchLongPressed;
     boolean mHomeDoubleTapPending;
+    boolean mVirtualKeysHapticFeedback = true;
     Intent mHomeIntent;
     Intent mCarDockIntent;
     Intent mDeskDockIntent;
@@ -639,6 +640,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HARDWARE_KEY_REBINDING), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.IMMERSIVE_MODE), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.VIRTUAL_KEYS_HAPTIC_FEEDBACK), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -1467,6 +1474,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             mVolumeMusicControls = Settings.System.getIntForUser(resolver,
                     Settings.System.VOLUME_MUSIC_CONTROLS, 1, UserHandle.USER_CURRENT) != 0;
+
+            mVirtualKeysHapticFeedback = Settings.System.getIntForUser(resolver,
+                    Settings.System.VIRTUAL_KEYS_HAPTIC_FEEDBACK, 1, UserHandle.USER_CURRENT) != 0;
 
             updateKeyAssignments();
 
@@ -4426,7 +4436,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         if (down && (policyFlags & WindowManagerPolicy.FLAG_VIRTUAL) != 0
-                && event.getRepeatCount() == 0) {
+                && event.getRepeatCount() == 0 && mVirtualKeysHapticFeedback) {
             performHapticFeedbackLw(null, HapticFeedbackConstants.VIRTUAL_KEY, false);
         }
 
@@ -5658,7 +5668,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             return false;
         }
         final boolean hapticsDisabled = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.HAPTIC_FEEDBACK_ENABLED, 0, UserHandle.USER_CURRENT) == 0;
+                Settings.System.HAPTIC_FEEDBACK_ENABLED, 1, UserHandle.USER_CURRENT) == 0;
         if (!always && (hapticsDisabled || mKeyguardDelegate.isShowingAndNotHidden())) {
             return false;
         }
