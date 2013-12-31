@@ -3013,12 +3013,6 @@ public final class Settings {
         public static final String QUIET_HOURS_RINGER = "quiet_hours_ringer";
 
         /**
-         * Whether to have statusbar right side pulldown.  The value is boolean (1 or 0).
-         * @hide
-         */
-        public static final String STATUS_BAR_QS_QUICK_PULLDOWN = "status_bar_qs_quick_pulldown";
-
-        /**
          * Show the pending notification counts as overlays on the status bar
          * @hide
          */
@@ -3043,11 +3037,17 @@ public final class Settings {
         public static final String STATUS_BAR_CUSTOM_HEADER = "status_bar_custom_header";
 
         /**
-
          * Setting to show the battery percentage text
          * @hide
          */
         public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
+
+        /**
+         * Quick Settings Quick Pulldown
+         *
+         * @hide
+         */
+        public static final String QS_QUICK_PULLDOWN = "qs_quick_pulldown";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
