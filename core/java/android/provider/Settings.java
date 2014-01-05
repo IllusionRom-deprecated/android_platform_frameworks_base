@@ -2962,7 +2962,14 @@ public final class Settings {
         public static final String ENABLE_DIALER_REVERSE_LOOKUP = "enable_dialer_reverse_lookup";
 
         /**
+         * Quick settings tiles dynamic row
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_TILES_ROW = "quick_settings_tiles_row";
+
+        /**
          * Weather to minimize lockscreen challenge on screen turned on
+         *
          * @hide
          */
         public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
