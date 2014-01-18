@@ -117,13 +117,13 @@ public class NotificationPanelView extends PanelView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        boolean shouldRecycleEvent = false;
         if (DEBUG_GESTURES) {
             if (event.getActionMasked() != MotionEvent.ACTION_MOVE) {
                 EventLog.writeEvent(EventLogTags.SYSUI_NOTIFICATIONPANEL_TOUCH,
                        event.getActionMasked(), (int) event.getX(), (int) event.getY());
             }
         }
-        boolean shouldRecycleEvent = false;
         if (PhoneStatusBar.SETTINGS_DRAG_SHORTCUT && mStatusBar.mHasFlipSettings) {
             boolean flip = false;
             boolean swipeFlipJustFinished = false;
@@ -132,7 +132,9 @@ public class NotificationPanelView extends PanelView {
                 case MotionEvent.ACTION_DOWN:
                     mGestureStartX = event.getX(0);
                     mGestureStartY = event.getY(0);
-                    mTrackingSwipe = isFullyExpanded();
+                    mTrackingSwipe = isFullyExpanded() &&
+                    // Pointer is at the handle portion of the view?
+                    mGestureStartY > getHeight() - mHandleBarHeight - getPaddingBottom();
                     mOkToFlip = getExpandedHeight() == 0;
                     int quickPulldownMode = Settings.System.getInt(getContext().getContentResolver(),
                             Settings.System.QS_QUICK_PULLDOWN, 1);
