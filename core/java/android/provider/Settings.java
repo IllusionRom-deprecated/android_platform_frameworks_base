@@ -1,4 +1,4 @@
-/*
+	/*
  * Copyright (C) 2006 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -3024,11 +3024,17 @@ public final class Settings {
          */
         public static final String MENU_UNLOCK_SCREEN = "menu_unlock_screen";
 
-        /**
+	 /**
          * Show the pending notification counts as overlays on the status bar
          * @hide
          */
         public static final String STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
+
+        /**
+         * Quick Settings Smart Pulldown
+         * @hide
+         */
+        public static final String QS_SMART_PULLDOWN = "qs_smart_pulldown";
 
         /**
          * Defines the screen-off animation to display
