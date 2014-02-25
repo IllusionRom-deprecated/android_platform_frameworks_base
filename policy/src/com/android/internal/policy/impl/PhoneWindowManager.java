@@ -642,9 +642,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.HARDWARE_KEY_REBINDING), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.IMMERSIVE_MODE), false, this,
-                    UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.VIRTUAL_KEYS_HAPTIC_FEEDBACK), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
