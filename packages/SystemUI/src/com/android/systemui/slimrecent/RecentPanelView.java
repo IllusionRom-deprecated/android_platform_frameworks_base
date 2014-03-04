@@ -418,8 +418,8 @@ public class RecentPanelView {
             return;
         }
         intent.setComponent(intent.resolveActivity(mContext.getPackageManager()));
-        mContext.startActivityAsUser(intent, opts,
-                new UserHandle(UserHandle.USER_CURRENT));
+        TaskStackBuilder.create(mContext)
+                .addNextIntentWithParentStack(intent).startActivities(opts);
         exit();
     }
 
