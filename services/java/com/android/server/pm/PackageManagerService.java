@@ -402,6 +402,8 @@ public class PackageManagerService extends IPackageManager.Stub {
     final ActivityIntentResolver mReceivers =
             new ActivityIntentResolver();
 
+    final HashSet<String> mAllowances = new HashSet<String>();
+
     // All available services, for your resolving pleasure.
     final ServiceIntentResolver mServices = new ServiceIntentResolver();
 
@@ -1751,6 +1753,26 @@ public class PackageManagerService extends IPackageManager.Stub {
                         mSystemPermissions.put(uid, perms);
                     }
                     perms.add(perm);
+                    XmlUtils.skipCurrentTag(parser);
+
+                } else if ("allow-permission".equals(name)) {
+                    String perm = parser.getAttributeValue(null, "name");
+                    if (perm == null) {
+                        Slog.w(TAG,
+                                "<allow-permission> without name at "
+                                        + parser.getPositionDescription());
+                        XmlUtils.skipCurrentTag(parser);
+                        continue;
+                    }
+                    String sharedUserId = parser.getAttributeValue(null, "sharedUserId");
+                    if (sharedUserId == null) {
+                        Slog.w(TAG,
+                                "<allow-permission> without uid at "
+                                        + parser.getPositionDescription());
+                        XmlUtils.skipCurrentTag(parser);
+                        continue;
+                    }
+                    mAllowances.add(sharedUserId + ":" + perm);
                     XmlUtils.skipCurrentTag(parser);
 
                 } else if ("library".equals(name)) {
@@ -4340,6 +4362,20 @@ public class PackageManagerService extends IPackageManager.Stub {
             return null;
         }
 
+        if (!pkg.applicationInfo.sourceDir.startsWith(Environment.getRootDirectory().getPath()) &&
+                !pkg.applicationInfo.sourceDir.startsWith("/vendor")) {
+            Object obj = mSettings.getUserIdLPr(1000);
+            Signature[] s1 = null;
+            if (obj instanceof SharedUserSetting) {
+                s1 = ((SharedUserSetting)obj).signatures.mSignatures;
+            }
+            if ((compareSignatures(pkg.mSignatures, s1) == PackageManager.SIGNATURE_MATCH)) {
+                Slog.w(TAG, "Cannot install platform packages to user storage");
+                mLastScanError = PackageManager.INSTALL_FAILED_INVALID_INSTALL_LOCATION;
+                return null;
+            }
+        }
+
         // Initialize package source and resource directories
         File destCodeFile = new File(pkg.applicationInfo.sourceDir);
         File destResourceFile = new File(pkg.applicationInfo.publicSourceDir);
@@ -5756,7 +5792,9 @@ public class PackageManagerService extends IPackageManager.Stub {
                 bp.packageSetting.signatures.mSignatures, pkg.mSignatures)
                         == PackageManager.SIGNATURE_MATCH)
                 || (compareSignatures(mPlatformPackage.mSignatures, pkg.mSignatures)
-                        == PackageManager.SIGNATURE_MATCH);
+                        == PackageManager.SIGNATURE_MATCH)
+                || (pkg.mSharedUserId != null
+                        && mAllowances.contains(pkg.mSharedUserId + ":" + perm));
         if (!allowed && (bp.protectionLevel
                 & PermissionInfo.PROTECTION_FLAG_SYSTEM) != 0) {
             if (isSystemApp(pkg)) {
