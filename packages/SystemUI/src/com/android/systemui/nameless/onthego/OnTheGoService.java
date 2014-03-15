@@ -115,8 +115,15 @@ public class OnTheGoService extends Service {
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
-            // Stop and restart
-            stopOnTheGo(true);
+            final ContentResolver resolver = getContentResolver();
+            final boolean restartService = Settings.System.getBoolean(resolver,
+                    Settings.System.ON_THE_GO_SERVICE_RESTART,
+                    false);
+            if (restartService) {
+                restartOnTheGo();
+            } else {
+                stopOnTheGo(true);
+            }
         }
     }
 
@@ -147,7 +154,7 @@ public class OnTheGoService extends Service {
 
         resetViews();
         registerAlphaReceiver();
-        setupViews();
+        setupViews(false);
         final SettingsObserver mObserver = new SettingsObserver(mHandler);
         mObserver.observe();
 
@@ -170,6 +177,19 @@ public class OnTheGoService extends Service {
 
         stopSelf();
     }
+
+    private void restartOnTheGo() {
+        resetViews();
+        mHandler.removeCallbacks(mRestartRunnable);
+        mHandler.postDelayed(mRestartRunnable, 500);
+    }
+
+    private final Runnable mRestartRunnable = new Runnable() {
+        @Override
+        public void run() {
+            setupViews(true);
+        }
+    };
 
     private void toggleOnTheGoAlpha() {
         final float alpha = Settings.System.getFloat(getContentResolver(),
@@ -216,7 +236,7 @@ public class OnTheGoService extends Service {
         }
     }
 
-    private void setupViews() {
+    private void setupViews(boolean isRestarting) {
         final int cameraType = Settings.System.getInt(getContentResolver(),
                 Settings.System.ON_THE_GO_CAMERA,
                 0);
@@ -224,8 +244,10 @@ public class OnTheGoService extends Service {
             getCameraInstance(cameraType);
         } catch (RuntimeException exc) {
             // Well, you cant have all in this life..
-            createNotification(NOTIFICATION_ERROR);
-            stopOnTheGo(true);
+            if (!isRestarting) {
+                createNotification(NOTIFICATION_ERROR);
+                stopOnTheGo(true);
+            }
         }
 
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
@@ -313,7 +335,7 @@ public class OnTheGoService extends Service {
 
         if (type == 1 || type == 2) {
             final ComponentName cn = new ComponentName("com.android.systemui",
-                    "com.android.systemui.nameless.onthego.OnTheGoService");
+                    "com.android.systemui.system.onthego.OnTheGoService");
             final Intent startIntent = new Intent();
             startIntent.setComponent(cn);
             startIntent.setAction(ACTION_START);
