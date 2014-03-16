@@ -108,8 +108,8 @@ public class OnTheGoService extends Service {
 
         void observe() {
             final ContentResolver resolver = getContentResolver();
-            resolver.registerContentObserver(Settings.Nameless.getUriFor(
-                    Settings.Nameless.ON_THE_GO_CAMERA), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ON_THE_GO_CAMERA), false, this);
         }
 
         @Override
@@ -217,8 +217,8 @@ public class OnTheGoService extends Service {
     }
 
     private void setupViews() {
-        final int cameraType = Settings.Nameless.getInt(getContentResolver(),
-                Settings.Nameless.ON_THE_GO_CAMERA,
+        final int cameraType = Settings.System.getInt(getContentResolver(),
+                Settings.System.ON_THE_GO_CAMERA,
                 0);
         try {
             getCameraInstance(cameraType);
