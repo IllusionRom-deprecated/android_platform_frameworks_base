@@ -2838,6 +2838,12 @@ public final class Settings {
         public static final String IMMERSIVE_MODE = "immersive_mode";
 
         /**
+         *
+         * @hide
+         */
+        public static final String SMART_PHONE_CALLER = "smart_phone_caller";
+
+        /**
          * Config for advanced power menu
          * @hide
          */
