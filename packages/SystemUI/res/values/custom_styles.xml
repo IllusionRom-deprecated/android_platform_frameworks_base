@@ -18,6 +18,12 @@
 -->
 <resources>
 
+    <style name="Theme.DummyActivity" parent="android:style/Theme.Translucent" >
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="TextAppearance.StatusBar.Battery" parent="@*android:style/TextAppearance.StatusBar.Icon">
         <!-- Note: must be dp to fit in status bar -->
         <item name="android:textSize">12dp</item>
