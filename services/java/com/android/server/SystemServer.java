@@ -815,21 +815,20 @@ class ServerThread {
             }
 
             try {
-<<<<<<< HEAD
                 Slog.i(TAG, "AssetRedirectionManager Service");
                 ServiceManager.addService("assetredirection", new AssetRedirectionManagerService(context));
             } catch (Throwable e) {
                 Slog.e(TAG, "Failure starting AssetRedirectionManager Service", e);
             }
 
-=======
+            try {
                 Slog.i(TAG, "Theme Service");
                 themeService = new ThemeService(context);
                 ServiceManager.addService(Context.THEME_SERVICE, themeService);
             } catch (Throwable e) {
                 reportWtf("starting Theme Service", e);
             }
->>>>>>> 34d6168... New Theme Engine [1/6]
+
             if (!disableNonCoreServices) {
                 try {
                     Slog.i(TAG, "Media Router Service");
@@ -839,37 +838,6 @@ class ServerThread {
                     reportWtf("starting MediaRouterService", e);
                 }
             }
-<<<<<<< HEAD
-=======
-
-
-            try {
-                Slog.i(TAG, "EdgeGesture service");
-                edgeGestureService = new EdgeGestureService(context, inputManager);
-                ServiceManager.addService("edgegestureservice", edgeGestureService);
-            } catch (Throwable e) {
-                Slog.e(TAG, "Failure starting EdgeGesture service", e);
-            }
-        }
-
-        // make sure the ADB_ENABLED setting value matches the secure property value
-        Settings.Secure.putInt(mContentResolver, Settings.Secure.ADB_PORT,
-                Integer.parseInt(SystemProperties.get("service.adb.tcp.port", "-1")));
-
-        // register observer to listen for settings changes
-        mContentResolver.registerContentObserver(
-            Settings.Secure.getUriFor(Settings.Secure.ADB_PORT),
-            false, new AdbPortObserver());
-        if (!TextUtils.isEmpty(context.getString(
-                com.android.internal.R.string.config_perf_profile_prop))) {
-            PerformanceProfileObserver observer = new PerformanceProfileObserver(context);
-            mContentResolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.PERFORMANCE_PROFILE),
-                    false, observer);
-
-            // Sync the system property with the current setting
-            observer.setSystemSetting();
->>>>>>> 34d6168... New Theme Engine [1/6]
         }
 
         // Before things start rolling, be sure we have decided whether
