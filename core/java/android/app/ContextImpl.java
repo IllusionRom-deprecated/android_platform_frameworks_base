@@ -594,24 +594,6 @@ class ContextImpl extends Context {
                 return new ConsumerIrManager(ctx);
             }});
 
-        registerService(PROFILE_SERVICE, new ServiceFetcher() {
-                public Object createService(ContextImpl ctx) {
-                    final Context outerContext = ctx.getOuterContext();
-                    return new ProfileManager (outerContext, ctx.mMainThread.getHandler());
-                }});
-
-        registerService(WimaxManagerConstants.WIMAX_SERVICE, new ServiceFetcher() {
-                public Object createService(ContextImpl ctx) {
-                    return WimaxHelper.createWimaxService(ctx, ctx.mMainThread.getHandler());
-                }});
-
-        registerService(BATTERY_SERVICE, new ServiceFetcher() {
-                public Object createService(ContextImpl ctx) {
-                    IBinder b = ServiceManager.getService(BATTERY_SERVICE);
-                    IBatteryService service = IBatteryService.Stub.asInterface(b);
-                    return new BatteryManager(service, ctx);
-                }});
-
         registerService(THEME_SERVICE, new ServiceFetcher() {
             public Object createService(ContextImpl ctx) {
                 IBinder b = ServiceManager.getService(THEME_SERVICE);
