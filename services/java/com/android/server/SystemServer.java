@@ -364,7 +364,6 @@ class ServerThread {
         PrintManagerService printManager = null;
         MediaRouterService mediaRouter = null;
         ThemeService themeService = null;
-        EdgeGestureService edgeGestureService = null;
 
         // Bring up services needed for UI.
         if (factoryTest != SystemServer.FACTORY_TEST_LOW_LEVEL) {
@@ -812,13 +811,6 @@ class ServerThread {
                 ServiceManager.addService(Context.PRINT_SERVICE, printManager);
             } catch (Throwable e) {
                 reportWtf("starting Print Service", e);
-            }
-
-            try {
-                Slog.i(TAG, "AssetRedirectionManager Service");
-                ServiceManager.addService("assetredirection", new AssetRedirectionManagerService(context));
-            } catch (Throwable e) {
-                Slog.e(TAG, "Failure starting AssetRedirectionManager Service", e);
             }
 
             try {
