@@ -114,4 +114,7 @@
 
     <!-- Title shown in notification popup for launching notification in floating mode -->
     <string name="status_bar_notification_floating_item_title">Floating mode</string>
+
+    <string name="dessert_case_settings_illusion_title">Show Illusion\'s logos</string>
+    <string name="dessert_case_settings_illusion_summary">Show Illusion\'s logos instead of Android\'s desserts inside the dream</string>
 </resources>

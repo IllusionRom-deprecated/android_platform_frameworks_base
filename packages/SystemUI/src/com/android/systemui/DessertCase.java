@@ -16,6 +16,8 @@
 
 package com.android.systemui;
 
+import com.android.systemui.IllusionCaseView;
+
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -30,6 +32,7 @@ public class DessertCase extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+        final boolean isILLUSION = getIntent().getBooleanExtra("is_illusion", false);
 
         PackageManager pm = getPackageManager();
         final ComponentName cn = new ComponentName(this, DessertCaseDream.class);
@@ -40,7 +43,12 @@ public class DessertCase extends Activity {
                     PackageManager.DONT_KILL_APP);
         }
 
+        if (isILLUSION) {
+        mView = new IllusionCaseView(this);
+        Slog.v("DessertCase", "IllusionROM enabled!");
+        } else {
         mView = new DessertCaseView(this);
+        }
 
         DessertCaseView.RescalingContainer container = new DessertCaseView.RescalingContainer(this);
 
