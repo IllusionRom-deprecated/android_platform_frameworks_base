@@ -30,7 +30,6 @@ import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.hardware.usb.UsbAccessory;
 import android.hardware.usb.UsbManager;
-import android.os.Bundle;
 import android.os.FileUtils;
 import android.os.Handler;
 import android.os.Looper;
@@ -125,15 +124,8 @@ public class UsbDeviceManager {
         }
         @Override
         public void onChange(boolean selfChange) {
-            String buildType = System.getProperty("ro.build.type");
-            int defInt;
-            if (buildType.equalsIgnoreCase("eng")) {
-                defInt = 1;
-            } else {
-                defInt = 0;
-            }
             boolean enable = (Settings.Global.getInt(mContentResolver,
-                    Settings.Global.ADB_ENABLED, defInt) > 0);
+                    Settings.Global.ADB_ENABLED, 0) > 0);
             mHandler.sendMessage(MSG_ENABLE_ADB, enable);
         }
     }
