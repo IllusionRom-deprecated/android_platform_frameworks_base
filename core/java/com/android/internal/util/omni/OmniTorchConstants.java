@@ -23,7 +23,7 @@ public class OmniTorchConstants {
     /**
      * Package name of the torch app
      */
-    public static final String APP_PACKAGE_NAME = "org.omnirom.torch";
+    public static final String APP_PACKAGE_NAME = "net.cactii.flash2";
 
     /**
      * Intent broadcast action for toggling the torch state
